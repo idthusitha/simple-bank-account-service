@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  simple-bank-account-service:
+    image: test/simple-bank-account-service
+    ports:
+      - "8080:8080"
+    network_mode: host
