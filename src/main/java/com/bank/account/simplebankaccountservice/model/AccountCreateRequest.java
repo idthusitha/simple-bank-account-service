@@ -2,27 +2,53 @@ package com.bank.account.simplebankaccountservice.model;
 
 public class AccountCreateRequest {
 
-	private String customerFirstName;
-	private String customerLastName;
+	private String firstName;
+	private String lastName;
+	private String address;
+	private String country;
+	private String emailAddress;
 	private String dateOfBirth;
-	private String personalNumber;
-	private String currency;
-	private String status;
+	private Integer personalNumber;
+	private Integer phoneNumber;
 
-	public String getCustomerFirstName() {
-		return customerFirstName;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setCustomerFirstName(String customerFirstName) {
-		this.customerFirstName = customerFirstName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getCustomerLastName() {
-		return customerLastName;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setCustomerLastName(String customerLastName) {
-		this.customerLastName = customerLastName;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 
 	public String getDateOfBirth() {
@@ -33,28 +59,20 @@ public class AccountCreateRequest {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public String getPersonalNumber() {
+	public Integer getPersonalNumber() {
 		return personalNumber;
 	}
 
-	public void setPersonalNumber(String personalNumber) {
+	public void setPersonalNumber(Integer personalNumber) {
 		this.personalNumber = personalNumber;
 	}
 
-	public String getCurrency() {
-		return currency;
+	public Integer getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
+	public void setPhoneNumber(Integer phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bank.account.simplebankaccountservice.model.AccountBalanceRequest;
+import com.bank.account.simplebankaccountservice.model.AccountBalanceResponse;
 import com.bank.account.simplebankaccountservice.model.AccountCreateRequest;
 import com.bank.account.simplebankaccountservice.model.AccountCreateResponse;
 import com.bank.account.simplebankaccountservice.service.AccountService;
@@ -49,6 +51,32 @@ public class AccountController {
 			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		} else {
 			return ResponseEntity.ok(accountCreateResponse);
+		}
+
+	}
+	
+	@ApiOperation(value = "Check Account Balance")
+	@RequestMapping(value = "/balance", method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<?> balance(@RequestBody AccountBalanceRequest accountBalanceRequest,
+			HttpServletResponse response) {
+		AccountBalanceResponse accountBalanceResponse = null;
+		try {
+			logger.info("Starting on method balance in AccountController :");
+
+			/** Need to validate the AccountCreateRequest */
+
+			accountBalanceResponse = accountService.balance(accountBalanceRequest);
+
+		} catch (Exception e) {
+			logger.error("Error on method balance in AccountController :", e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		logger.info("Ending on method balance in AccountController :");
+		if (null == accountBalanceResponse) {
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+		} else {
+			return ResponseEntity.ok(accountBalanceResponse);
 		}
 
 	}

@@ -1,9 +1,9 @@
 package com.bank.account.simplebankaccountservice.model;
 
-public class AccountCreateResponse {
+public class AccountBalanceRequest {
 
 	private Integer accountNumber;
-	private String status;
+	private String currency;
 
 	public Integer getAccountNumber() {
 		return accountNumber;
@@ -13,11 +13,11 @@ public class AccountCreateResponse {
 		this.accountNumber = accountNumber;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getCurrency() {
+		return currency;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 }

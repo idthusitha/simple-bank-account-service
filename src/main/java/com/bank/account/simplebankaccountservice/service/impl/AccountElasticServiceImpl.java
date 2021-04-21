@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.stereotype.Service;
 
+import com.bank.account.simplebankaccountservice.document.Account;
+
 @Service
 public class AccountElasticServiceImpl {
 
@@ -13,5 +15,11 @@ public class AccountElasticServiceImpl {
 
 	@Autowired
 	ElasticsearchOperations elasticsearchOperations;
+
+	public void save(Account account) {
+
+		elasticsearchOperations.indexOps(Account.class).create();
+		elasticsearchOperations.save(account);
+	}
 
 }

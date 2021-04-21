@@ -1,16 +1,27 @@
 # Simple Bank Account Service API
 
-### Consideration
+### OBJECTIVE
 
-   * test
+   * Build a simple self-contained bank account REST service. While being a simple fictive assignment feel
+free to add other aspects to make it more production ready.
 
-### Deriving the solution
+### FUNCTIONAL REQUIREMENTS
 
-   * test
+   * Support create account   	   	
+   * Support deposit and withdrawal to account.
+   * Support show account balance in currency of choice. Currency of the account (used in deposit
+		and withdrawal) is SEK.
+   * Currency exchange rates should be static but changing to fetch it from an external REST
+	service should be fairly easy.
+   * Negative account balance is not allowed.
 
-### Key Decisions
+### TECHNICAL REQUIREMENTS
 
-   * test
+   * Account number of 9 digits.
+   * Use Java 11 (or later).
+   * Use Spring Boot 2.x.
+   * Allow concurrent operations.
+   * Use in memory data structures or in memory database.
 
 ### Create Bank Account JSON format 
 
@@ -61,6 +72,9 @@
 	#Go to the project home directory which is simple-bank-account-service
 	cd /[project-home-directory]
 	./gradlew bootRun
+	
+	./gradlew clean build bootRun --debug-jvm
+	 Listening for transport dt_socket at address: 5005
 
 ### Application Swagger API
 	
