@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bank.account.simplebankaccountservice.document.CurrencyExchangeRate;
 import com.bank.account.simplebankaccountservice.model.CurrencyExchnageRateRequest;
+import com.bank.account.simplebankaccountservice.model.CurrencyExchnageRateResponse;
 
 /**
  * 
@@ -57,7 +58,7 @@ public class CurrencyExchangeRateUtils {
 			currency.setExchangeRate(1.0);
 			currency.setUpdatedDate(new Date());
 			list.add(currency);
-			
+
 			currency = new CurrencyExchangeRate();
 			currency.setBaseCurrency(baseCurrency);
 			currency.setBaseCurrencyName(baseCurrencyName);
@@ -114,12 +115,10 @@ public class CurrencyExchangeRateUtils {
 		return list;
 	}
 
-	public String getAmmount(CurrencyExchnageRateRequest currencyExchnageRateRequest,
-			CurrencyExchangeRate currencyExchangeRate) {
-		Double amount = 0.00;
+	public String getAmmount(Double amount, CurrencyExchnageRateResponse currencyExchnageRateResponse) {
 
-		amount = currencyExchnageRateRequest.getAmount() / currencyExchangeRate.getExchangeRate();
-		return decimalDigits(currencyExchangeRate.getCurrencyDecimal(), amount);		
+		amount = amount / currencyExchnageRateResponse.getExchangeRate();
+		return decimalDigits(currencyExchnageRateResponse.getCurrencyDecimal(), amount);
 	}
 
 	public String decimalDigits(int decimaldigits, double x) {

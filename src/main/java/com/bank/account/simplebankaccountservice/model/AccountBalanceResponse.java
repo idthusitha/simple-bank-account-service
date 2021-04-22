@@ -9,6 +9,7 @@ public class AccountBalanceResponse {
 
 	private Integer accountNumber;
 	private String currency;
+	private String amount;
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -114,5 +115,13 @@ public class AccountBalanceResponse {
 
 	public void setTransactionHistory(List<TransactionHistory> transactionHistory) {
 		this.transactionHistory = transactionHistory;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
 	}
 }

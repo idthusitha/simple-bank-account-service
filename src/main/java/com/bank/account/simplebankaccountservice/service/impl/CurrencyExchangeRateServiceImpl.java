@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +31,9 @@ public class CurrencyExchangeRateServiceImpl implements CurrencyExchangeRateServ
 		currencyExchangeRate.setCurrency(currencyExchnageRateRequest.getCurrency());
 
 		currencyExchangeRate = accountElasticServiceImpl.findExchangeRate(currencyExchangeRate);
+		BeanUtils.copyProperties(currencyExchangeRate, currencyExchnageRateResponse);
 
-		currencyExchnageRateResponse.setAmount(CurrencyExchangeRateUtils.getInstance().getAmmount(currencyExchnageRateRequest, currencyExchangeRate));
+		currencyExchnageRateResponse.setAmount(CurrencyExchangeRateUtils.getInstance().getAmmount(currencyExchnageRateRequest.getAmount(), currencyExchnageRateResponse));
 		currencyExchnageRateResponse.setCurrency(currencyExchangeRate.getCurrency());
 
 		String baseDecimalPlace = CommonUtils.getInstance().getProperties().getProperty("base.currency.decimalplace");
