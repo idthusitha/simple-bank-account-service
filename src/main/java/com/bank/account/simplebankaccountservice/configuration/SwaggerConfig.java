@@ -37,12 +37,13 @@ public class SwaggerConfig {
 	
 	private Predicate<String> paths() {
 		return and(or( // Paths to Load
-				regex("/account.*")));
+				regex("/account.*"),
+				regex("/currency.*")));
 	}
 	
 	private ApiInfo apiInfo() {
 	    return new ApiInfoBuilder()
-				.title("Issues Summary API").description("Issues Summary API Documentation")
+				.title("simple bank account service API").description("simple bank account service API Documentation")
 	            .version(version)
 	            .build();
 	}

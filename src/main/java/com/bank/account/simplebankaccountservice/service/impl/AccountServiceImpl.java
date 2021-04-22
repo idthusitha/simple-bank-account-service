@@ -8,10 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.bank.account.simplebankaccountservice.document.Account;
@@ -58,9 +54,12 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public AccountBalanceResponse balance(AccountBalanceRequest accountBalanceRequest) {
 		AccountBalanceResponse accountBalanceResponse = new AccountBalanceResponse();
-		
-		//query
-		
+
+		Account account = new Account();
+		BeanUtils.copyProperties(accountBalanceRequest, account);
+		account = accountElasticServiceImpl.findByAccountId(account);
+		BeanUtils.copyProperties(account, accountBalanceResponse);
+
 		return accountBalanceResponse;
 	}
 

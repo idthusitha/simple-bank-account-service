@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import com.bank.account.simplebankaccountservice.utilities.StringConstant;
 
-@Document(indexName = StringConstant.PRODUCT_INDEX /*, type = "article"*/)
+@Document(indexName = StringConstant.ACCOUNT_INDEX)
 public class Account {
 
 	@Id
@@ -40,12 +40,15 @@ public class Account {
 	@Field(type = FieldType.Double)
 	private Double amount;
 
+	@Field(type = FieldType.Text)
+	private Double currency;
+
 	@Field(type = FieldType.Integer)
 	private Integer phoneNumber;
 
-    @Field(type = FieldType.Nested, includeInParent = true)
+	@Field(type = FieldType.Nested, includeInParent = true)
 	private List<TransactionHistory> transactionHistory;
-	
+
 	@Field(type = FieldType.Date)
 	private Date createdDate;
 
@@ -121,6 +124,14 @@ public class Account {
 		this.amount = amount;
 	}
 
+	public Double getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Double currency) {
+		this.currency = currency;
+	}
+
 	public Integer getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -141,9 +152,7 @@ public class Account {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date date) {
-		this.createdDate = date;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
-
-	
 }
