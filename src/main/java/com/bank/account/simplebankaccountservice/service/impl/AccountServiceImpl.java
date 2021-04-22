@@ -75,26 +75,24 @@ public class AccountServiceImpl implements AccountService {
 		BeanUtils.copyProperties(accountBalanceRequest, account);
 		account = accountElasticServiceImpl.findByAccountId(account);
 		BeanUtils.copyProperties(account, accountBalanceResponse);
-		
-		/**For Testing*/
+
+		/** For Testing */
 		account.setAmount(100.00);
 
-		CurrencyExchnageRateResponse currencyExchnageRateResponse = loadCurrencyExchangeRate(accountBalanceRequest,	account.getAmount());
+		CurrencyExchnageRateResponse currencyExchnageRateResponse = loadCurrencyExchangeRate(accountBalanceRequest, account.getAmount());
 		accountBalanceResponse.setCurrency(accountBalanceRequest.getCurrency());
 		accountBalanceResponse.setAmount(currencyExchnageRateResponse.getAmount());
 
 		return accountBalanceResponse;
 	}
 
-	private CurrencyExchnageRateResponse loadCurrencyExchangeRate(AccountBalanceRequest accountBalanceRequest,
-			Double amount) {
+	private CurrencyExchnageRateResponse loadCurrencyExchangeRate(AccountBalanceRequest accountBalanceRequest, Double amount) {
 		CurrencyExchnageRateResponse currencyExchnageRateResponse = new CurrencyExchnageRateResponse();
 
 		try {
 
 			RestTemplate restTemplate = new RestTemplate();
-			String exchangeRateAPI = CommonUtils.getInstance().getProperties().getProperty("exchange.rate.api.url")
-					+ "currency/find";
+			String exchangeRateAPI = CommonUtils.getInstance().getProperties().getProperty("exchange.rate.api.url") + "currency/find";
 			CurrencyExchnageRateRequest currencyExchnageRateRequest = new CurrencyExchnageRateRequest();
 			currencyExchnageRateRequest.setCurrency(accountBalanceRequest.getCurrency());
 			currencyExchnageRateRequest.setAmount(amount);
@@ -102,11 +100,9 @@ public class AccountServiceImpl implements AccountService {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 
-			HttpEntity<CurrencyExchnageRateRequest> entity = new HttpEntity<CurrencyExchnageRateRequest>(
-					currencyExchnageRateRequest, headers);
+			HttpEntity<CurrencyExchnageRateRequest> entity = new HttpEntity<CurrencyExchnageRateRequest>(currencyExchnageRateRequest, headers);
 
-			ResponseEntity<CurrencyExchnageRateResponse> response = restTemplate.exchange(exchangeRateAPI,
-					HttpMethod.POST, entity, CurrencyExchnageRateResponse.class);
+			ResponseEntity<CurrencyExchnageRateResponse> response = restTemplate.exchange(exchangeRateAPI, HttpMethod.POST, entity, CurrencyExchnageRateResponse.class);
 
 			if (response.getStatusCode() == HttpStatus.OK) {
 				currencyExchnageRateResponse = response.getBody();

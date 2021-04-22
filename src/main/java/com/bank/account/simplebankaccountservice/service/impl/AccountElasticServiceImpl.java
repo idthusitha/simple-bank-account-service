@@ -48,8 +48,7 @@ public class AccountElasticServiceImpl {
 		QueryBuilder queryBuilder = QueryBuilders.matchQuery("accountNumber", account.getAccountNumber());
 		Query searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 
-		SearchHits<Account> productHits = elasticsearchOperations.search(searchQuery, Account.class,
-				IndexCoordinates.of(StringConstant.ACCOUNT_INDEX));
+		SearchHits<Account> productHits = elasticsearchOperations.search(searchQuery, Account.class, IndexCoordinates.of(StringConstant.ACCOUNT_INDEX));
 		if (productHits.getTotalHits() > 0) {
 			account = (productHits.getSearchHits()).get(0).getContent();
 		}
@@ -60,8 +59,7 @@ public class AccountElasticServiceImpl {
 		QueryBuilder queryBuilder = QueryBuilders.matchQuery("currency", currencyExchangeRate.getCurrency());
 		Query searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 
-		SearchHits<CurrencyExchangeRate> productHits = elasticsearchOperations.search(searchQuery,
-				CurrencyExchangeRate.class, IndexCoordinates.of(StringConstant.CURRENCY_EXCHANGE_RATE));
+		SearchHits<CurrencyExchangeRate> productHits = elasticsearchOperations.search(searchQuery, CurrencyExchangeRate.class, IndexCoordinates.of(StringConstant.CURRENCY_EXCHANGE_RATE));
 		if (productHits.getTotalHits() > 0) {
 			currencyExchangeRate = (productHits.getSearchHits()).get(0).getContent();
 		}
@@ -71,8 +69,7 @@ public class AccountElasticServiceImpl {
 	public void update(List<CurrencyExchangeRate> list) {
 		List<IndexQuery> indexQueries = new ArrayList<>();
 		for (CurrencyExchangeRate fooDocument : list) {
-			IndexQuery query = new IndexQueryBuilder().withId(String.valueOf(fooDocument.getCurrency()))
-					.withObject(fooDocument).build();
+			IndexQuery query = new IndexQueryBuilder().withId(String.valueOf(fooDocument.getCurrency())).withObject(fooDocument).build();
 			indexQueries.add(query);
 		}
 		elasticsearchOperations.bulkIndex(indexQueries, IndexCoordinates.of(StringConstant.CURRENCY_EXCHANGE_RATE));

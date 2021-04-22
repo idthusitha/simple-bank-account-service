@@ -29,8 +29,7 @@ public class ExchangeRateController {
 
 	@ApiOperation(value = "find Exchange Rate")
 	@RequestMapping(value = "/find", method = RequestMethod.POST, produces = "application/json")
-	public ResponseEntity<?> find(@RequestBody CurrencyExchnageRateRequest currencyExchnageRateRequest,
-			HttpServletResponse response) {
+	public ResponseEntity<?> find(@RequestBody CurrencyExchnageRateRequest currencyExchnageRateRequest, HttpServletResponse response) {
 		CurrencyExchnageRateResponse currencyExchnageRateResponse = null;
 		try {
 			logger.info("Starting on method find in ExchangeRateController :");

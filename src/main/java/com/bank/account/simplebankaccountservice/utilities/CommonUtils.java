@@ -41,8 +41,7 @@ public class CommonUtils {
 			long endTime = System.currentTimeMillis();
 			long totalTime = endTime - startTime;
 			time = ((totalTime / 60000) % 60) + "m " + ((totalTime / 1000) % 60) + "s " + totalTime % 1000 + "ms";
-			logger.warn("Total time for " + lable + ":" + ((totalTime / 60000) % 60) + "m " + ((totalTime / 1000) % 60)
-					+ "s " + totalTime % 1000 + "ms\n\n");
+			logger.warn("Total time for " + lable + ":" + ((totalTime / 60000) % 60) + "m " + ((totalTime / 1000) % 60) + "s " + totalTime % 1000 + "ms\n\n");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -54,8 +53,7 @@ public class CommonUtils {
 		Properties properties = null;
 		try {
 			java.util.Locale myLocale = java.util.Locale.getDefault();
-			PropertyResourceBundle resource = (PropertyResourceBundle) PropertyResourceBundle.getBundle("application",
-					myLocale);
+			PropertyResourceBundle resource = (PropertyResourceBundle) PropertyResourceBundle.getBundle("application", myLocale);
 			properties = convertResourceBundleToProperties(resource);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -107,6 +105,5 @@ public class CommonUtils {
 		}
 		return numeric;
 	}
-	
-	
+
 }

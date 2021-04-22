@@ -31,8 +31,7 @@ public class AccountController {
 
 	@ApiOperation(value = "Create New Account")
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
-	public ResponseEntity<?> create(@RequestBody AccountCreateRequest accountCreateRequest,
-			HttpServletResponse response) {
+	public ResponseEntity<?> create(@RequestBody AccountCreateRequest accountCreateRequest, HttpServletResponse response) {
 		AccountCreateResponse accountCreateResponse = null;
 		try {
 			logger.info("Starting on method create in AccountController :");
@@ -54,11 +53,10 @@ public class AccountController {
 		}
 
 	}
-	
+
 	@ApiOperation(value = "Check Account Balance")
 	@RequestMapping(value = "/balance", method = RequestMethod.POST, produces = "application/json")
-	public ResponseEntity<?> balance(@RequestBody AccountBalanceRequest accountBalanceRequest,
-			HttpServletResponse response) {
+	public ResponseEntity<?> balance(@RequestBody AccountBalanceRequest accountBalanceRequest, HttpServletResponse response) {
 		AccountBalanceResponse accountBalanceResponse = null;
 		try {
 			logger.info("Starting on method balance in AccountController :");

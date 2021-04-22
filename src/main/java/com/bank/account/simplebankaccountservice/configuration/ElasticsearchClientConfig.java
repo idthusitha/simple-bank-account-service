@@ -30,8 +30,7 @@ public class ElasticsearchClientConfig extends AbstractElasticsearchConfiguratio
 		logger.info("elasticsearch.host : " + elasticsearchHost);
 		logger.info("elasticsearch.port : " + elasticsearchPort);
 
-		final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
-				.connectedTo(elasticsearchHost + ":" + elasticsearchPort).build();
+		final ClientConfiguration clientConfiguration = ClientConfiguration.builder().connectedTo(elasticsearchHost + ":" + elasticsearchPort).build();
 
 		return RestClients.create(clientConfiguration).rest();
 	}
