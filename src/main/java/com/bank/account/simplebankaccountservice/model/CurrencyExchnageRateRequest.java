@@ -4,7 +4,7 @@ public class CurrencyExchnageRateRequest {
 
 	private String currency;
 
-	private Double amount;
+	private String amount;
 
 	public String getCurrency() {
 		return currency;
@@ -14,11 +14,11 @@ public class CurrencyExchnageRateRequest {
 		this.currency = currency;
 	}
 
-	public Double getAmount() {
+	public String getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Double amount) {
+	public void setAmount(String amount) {
 		this.amount = amount;
 	}
 }

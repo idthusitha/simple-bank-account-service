@@ -33,11 +33,12 @@ public class CurrencyExchangeRateServiceImpl implements CurrencyExchangeRateServ
 		currencyExchangeRate = accountElasticServiceImpl.findExchangeRate(currencyExchangeRate);
 		BeanUtils.copyProperties(currencyExchangeRate, currencyExchnageRateResponse);
 
-		currencyExchnageRateResponse.setAmount(CurrencyExchangeRateUtils.getInstance().getAmmount(currencyExchnageRateRequest.getAmount(), currencyExchnageRateResponse));
+		currencyExchnageRateResponse.setBaseAmount(CurrencyExchangeRateUtils.getInstance().getAmmount(currencyExchnageRateRequest.getAmount(), currencyExchnageRateResponse));
 		currencyExchnageRateResponse.setCurrency(currencyExchangeRate.getCurrency());
 
 		String baseDecimalPlace = CommonUtils.getInstance().getProperties().getProperty("base.currency.decimalplace");
-		currencyExchnageRateResponse.setBaseAmount(CurrencyExchangeRateUtils.getInstance().decimalDigits(Integer.parseInt(baseDecimalPlace), currencyExchnageRateRequest.getAmount()));
+		Double amount = Double.parseDouble(currencyExchnageRateRequest.getAmount());
+		currencyExchnageRateResponse.setAmount(CurrencyExchangeRateUtils.getInstance().decimalDigits(Integer.parseInt(baseDecimalPlace), amount));
 		currencyExchnageRateResponse.setBaseCurrency(currencyExchangeRate.getBaseCurrency());
 
 		return currencyExchnageRateResponse;

@@ -16,6 +16,8 @@ import com.bank.account.simplebankaccountservice.model.AccountBalanceRequest;
 import com.bank.account.simplebankaccountservice.model.AccountBalanceResponse;
 import com.bank.account.simplebankaccountservice.model.AccountCreateRequest;
 import com.bank.account.simplebankaccountservice.model.AccountCreateResponse;
+import com.bank.account.simplebankaccountservice.model.AccountDepositRequest;
+import com.bank.account.simplebankaccountservice.model.AccountDepositResponse;
 import com.bank.account.simplebankaccountservice.service.AccountService;
 
 import io.swagger.annotations.ApiOperation;
@@ -77,5 +79,31 @@ public class AccountController {
 			return ResponseEntity.ok(accountBalanceResponse);
 		}
 
+	}
+
+	@ApiOperation(value = "Deposit Account")
+	@RequestMapping(value = "/deposit", method = RequestMethod.PUT, produces = "application/json")
+	public ResponseEntity<?> deposit(@RequestBody AccountDepositRequest accountDepositRequest, HttpServletResponse response) {
+		AccountDepositResponse accountDepositResponse = null;
+		try {
+			logger.info("Starting on method deposit in AccountController :");
+
+			/** Need to validate the AccountCreateRequest */
+
+			accountDepositResponse = accountService.deposit(accountDepositRequest);
+			accountDepositResponse.setStatus("SUCCESS");
+
+		} catch (Exception e) {
+			logger.error("Error on method deposit in AccountController :", e);
+			accountDepositResponse.setStatus("FAILED");
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		logger.info("Ending on method deposit in AccountController :");
+		if (null == accountDepositResponse) {
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+		} else {
+			return ResponseEntity.ok(accountDepositResponse);
+		}
 	}
 }

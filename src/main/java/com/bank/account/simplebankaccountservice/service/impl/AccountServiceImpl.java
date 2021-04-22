@@ -25,6 +25,8 @@ import com.bank.account.simplebankaccountservice.model.AccountBalanceRequest;
 import com.bank.account.simplebankaccountservice.model.AccountBalanceResponse;
 import com.bank.account.simplebankaccountservice.model.AccountCreateRequest;
 import com.bank.account.simplebankaccountservice.model.AccountCreateResponse;
+import com.bank.account.simplebankaccountservice.model.AccountDepositRequest;
+import com.bank.account.simplebankaccountservice.model.AccountDepositResponse;
 import com.bank.account.simplebankaccountservice.model.CurrencyExchnageRateRequest;
 import com.bank.account.simplebankaccountservice.model.CurrencyExchnageRateResponse;
 import com.bank.account.simplebankaccountservice.service.AccountService;
@@ -45,18 +47,14 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public AccountCreateResponse create(AccountCreateRequest accountCreateRequest) {
 
+		Integer accountNumber = accountElasticServiceImpl.generateAccountNumber();
+
 		Account account = new Account();
-		account.setAccountNumber(123456789);
+		account.setAccountNumber(accountNumber);
 		BeanUtils.copyProperties(accountCreateRequest, account);
-		account.setCreatedDate(new Date());
-		account.setAmount(0.0);
-
-		// Set TransactionHistory Data
-		List<TransactionHistory> list = new ArrayList<>();
-		TransactionHistory transactionHistory = new TransactionHistory();
-		list.add(transactionHistory);
-
-		account.setTransactionHistory(list);
+		account.setCreatedDate(CommonUtils.getInstance().getTimeStamp());
+		account.setAmount("0.0");
+		account.setCurrency(CommonUtils.getInstance().getProperties().getProperty("base.currency.code"));
 
 		accountElasticServiceImpl.save(account);
 
@@ -72,12 +70,9 @@ public class AccountServiceImpl implements AccountService {
 		AccountBalanceResponse accountBalanceResponse = new AccountBalanceResponse();
 
 		Account account = new Account();
-		BeanUtils.copyProperties(accountBalanceRequest, account);
+		account.setAccountNumber(accountBalanceRequest.getAccountNumber());
 		account = accountElasticServiceImpl.findByAccountId(account);
 		BeanUtils.copyProperties(account, accountBalanceResponse);
-
-		/** For Testing */
-		account.setAmount(100.00);
 
 		CurrencyExchnageRateResponse currencyExchnageRateResponse = loadCurrencyExchangeRate(accountBalanceRequest, account.getAmount());
 		accountBalanceResponse.setCurrency(accountBalanceRequest.getCurrency());
@@ -86,7 +81,7 @@ public class AccountServiceImpl implements AccountService {
 		return accountBalanceResponse;
 	}
 
-	private CurrencyExchnageRateResponse loadCurrencyExchangeRate(AccountBalanceRequest accountBalanceRequest, Double amount) {
+	private CurrencyExchnageRateResponse loadCurrencyExchangeRate(AccountBalanceRequest accountBalanceRequest, String amount) {
 		CurrencyExchnageRateResponse currencyExchnageRateResponse = new CurrencyExchnageRateResponse();
 
 		try {
@@ -114,6 +109,32 @@ public class AccountServiceImpl implements AccountService {
 		}
 
 		return currencyExchnageRateResponse;
+	}
+
+	@Override
+	public AccountDepositResponse deposit(AccountDepositRequest accountDepositRequest) {
+		AccountDepositResponse accountDepositResponse = new AccountDepositResponse();
+
+		Account account = new Account();
+		account.setAccountNumber(accountDepositRequest.getAccountNumber());
+		account = accountElasticServiceImpl.findByAccountId(account);
+
+		/** Update the transaction history list here */
+		List<TransactionHistory> historyList = account.getTransactionHistory();
+		TransactionHistory transactionHistory = new TransactionHistory();
+		transactionHistory.setDebitAmout(accountDepositRequest.getAmount());
+		transactionHistory.setCreditAmout("0.00");
+		transactionHistory.setTransactionDate(CommonUtils.getInstance().getTimeStamp());
+
+		historyList = historyList == null ? new ArrayList<TransactionHistory>() : historyList;
+		historyList.add(transactionHistory);
+
+		account.setTransactionHistory(historyList);
+
+		account.setAmount("" + (Double.parseDouble(account.getAmount()) + Double.parseDouble(accountDepositRequest.getAmount())));
+		accountElasticServiceImpl.update(account);
+		BeanUtils.copyProperties(account, accountDepositResponse);
+		return accountDepositResponse;
 	}
 
 }

@@ -2,16 +2,13 @@ package com.bank.account.simplebankaccountservice.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.elasticsearch.action.bulk.BulkRequest;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.NoSuchIndexException;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
@@ -22,9 +19,9 @@ import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.bank.account.simplebankaccountservice.document.Account;
+import com.bank.account.simplebankaccountservice.document.AccountNumber;
 import com.bank.account.simplebankaccountservice.document.CurrencyExchangeRate;
 import com.bank.account.simplebankaccountservice.utilities.StringConstant;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class AccountElasticServiceImpl {
@@ -34,12 +31,9 @@ public class AccountElasticServiceImpl {
 	@Autowired
 	ElasticsearchOperations elasticsearchOperations;
 
-	@Autowired
-	private ObjectMapper objectMapper;
-
 	public void save(Account account) {
 
-		elasticsearchOperations.indexOps(Account.class).create();
+		//elasticsearchOperations.indexOps(Account.class).create();
 		elasticsearchOperations.save(account);
 	}
 
@@ -73,6 +67,33 @@ public class AccountElasticServiceImpl {
 			indexQueries.add(query);
 		}
 		elasticsearchOperations.bulkIndex(indexQueries, IndexCoordinates.of(StringConstant.CURRENCY_EXCHANGE_RATE));
+	}
+
+	public void update(Account account) {
+		elasticsearchOperations.save(account);
+	}
+
+	public Integer generateAccountNumber() {
+		AccountNumber accountNumber = new AccountNumber();
+		accountNumber.setAccountNumber(100000000);
+		Long count = 0L;
+		try {
+			QueryBuilder queryBuilder = QueryBuilders.matchQuery("accountNumber", accountNumber.getAccountNumber());
+			Query searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
+
+			count = elasticsearchOperations.count(searchQuery, AccountNumber.class, IndexCoordinates.of(StringConstant.ACCOUNT_NUMBER_INDEX));
+			
+			accountNumber.setAccountNumber(100000000 + count.intValue() + 1);
+			//elasticsearchOperations.indexOps(AccountNumber.class).create();
+			elasticsearchOperations.save(accountNumber);
+
+		} catch (NoSuchIndexException e) {
+			//elasticsearchOperations.indexOps(AccountNumber.class).create();
+			elasticsearchOperations.save(accountNumber);
+			accountNumber.setAccountNumber(100000000 + count.intValue() + 1);
+		}
+
+		return accountNumber.getAccountNumber();
 	}
 
 }

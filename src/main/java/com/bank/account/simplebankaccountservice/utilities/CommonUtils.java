@@ -2,6 +2,8 @@ package com.bank.account.simplebankaccountservice.utilities;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
@@ -24,6 +26,7 @@ public class CommonUtils {
 
 	public static Properties properties = null;
 	private static CommonUtils instance = null;
+	private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	/**
 	 * @return CommonUtils
@@ -104,6 +107,11 @@ public class CommonUtils {
 			numeric = 0;
 		}
 		return numeric;
+	}
+	
+	public String getTimeStamp() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return format.format(timestamp);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.bank.account.simplebankaccountservice.document;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -18,7 +20,39 @@ public class TransactionHistory {
 
 	@Field(type = FieldType.Double)
 	private String debitAmout;
-	
+
 	@Field(type = FieldType.Double)
-	private String creditAmout;	
+	private String creditAmout;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getTransactionDate() {
+		return transactionDate;
+	}
+
+	public void setTransactionDate(String transactionDate) {
+		this.transactionDate = transactionDate;
+	}
+
+	public String getDebitAmout() {
+		return debitAmout;
+	}
+
+	public void setDebitAmout(String debitAmout) {
+		this.debitAmout = debitAmout;
+	}
+
+	public String getCreditAmout() {
+		return creditAmout;
+	}
+
+	public void setCreditAmout(String creditAmout) {
+		this.creditAmout = creditAmout;
+	}
 }

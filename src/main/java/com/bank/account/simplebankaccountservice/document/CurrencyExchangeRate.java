@@ -30,8 +30,8 @@ public class CurrencyExchangeRate {
 	@Field(type = FieldType.Double)
 	private Double exchangeRate;
 
-	@Field(type = FieldType.Date)
-	private Date updatedDate;
+	@Field(type = FieldType.Text)
+	private String updatedDate;
 
 	@Field(type = FieldType.Text)
 	private String status;
@@ -84,11 +84,11 @@ public class CurrencyExchangeRate {
 		this.exchangeRate = exchangeRate;
 	}
 
-	public Date getUpdatedDate() {
+	public String getUpdatedDate() {
 		return updatedDate;
 	}
 
-	public void setUpdatedDate(Date updatedDate) {
+	public void setUpdatedDate(String updatedDate) {
 		this.updatedDate = updatedDate;
 	}
 

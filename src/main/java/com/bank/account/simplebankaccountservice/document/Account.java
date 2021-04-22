@@ -37,11 +37,11 @@ public class Account {
 	@Field(type = FieldType.Integer)
 	private Integer personalNumber;
 
-	@Field(type = FieldType.Double)
-	private Double amount;
+	@Field(type = FieldType.Text)
+	private String amount;
 
 	@Field(type = FieldType.Text)
-	private Double currency;
+	private String currency;
 
 	@Field(type = FieldType.Integer)
 	private Integer phoneNumber;
@@ -49,8 +49,8 @@ public class Account {
 	@Field(type = FieldType.Nested, includeInParent = true)
 	private List<TransactionHistory> transactionHistory;
 
-	@Field(type = FieldType.Date)
-	private Date createdDate;
+	@Field(type = FieldType.Text)
+	private String createdDate;
 
 	public Integer getAccountNumber() {
 		return accountNumber;
@@ -116,19 +116,19 @@ public class Account {
 		this.personalNumber = personalNumber;
 	}
 
-	public Double getAmount() {
+	public String getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Double amount) {
+	public void setAmount(String amount) {
 		this.amount = amount;
 	}
 
-	public Double getCurrency() {
+	public String getCurrency() {
 		return currency;
 	}
 
-	public void setCurrency(Double currency) {
+	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
 
@@ -148,11 +148,11 @@ public class Account {
 		this.transactionHistory = transactionHistory;
 	}
 
-	public Date getCreatedDate() {
+	public String getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
 }

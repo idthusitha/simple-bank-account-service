@@ -56,7 +56,7 @@ public class CurrencyExchangeRateUtils {
 			currency.setCurrencyName("Swedish Kron");
 			currency.setCurrencyDecimal(2);
 			currency.setExchangeRate(1.0);
-			currency.setUpdatedDate(new Date());
+			currency.setUpdatedDate(CommonUtils.getInstance().getTimeStamp());
 			list.add(currency);
 
 			currency = new CurrencyExchangeRate();
@@ -66,7 +66,7 @@ public class CurrencyExchangeRateUtils {
 			currency.setCurrencyName("US dollars");
 			currency.setCurrencyDecimal(2);
 			currency.setExchangeRate(1 / 8.44);
-			currency.setUpdatedDate(new Date());
+			currency.setUpdatedDate(CommonUtils.getInstance().getTimeStamp());
 			list.add(currency);
 
 			currency = new CurrencyExchangeRate();
@@ -76,7 +76,7 @@ public class CurrencyExchangeRateUtils {
 			currency.setCurrencyName("Euro");
 			currency.setCurrencyDecimal(2);
 			currency.setExchangeRate(1 / 10.11);
-			currency.setUpdatedDate(new Date());
+			currency.setUpdatedDate(CommonUtils.getInstance().getTimeStamp());
 			list.add(currency);
 
 			currency = new CurrencyExchangeRate();
@@ -86,7 +86,7 @@ public class CurrencyExchangeRateUtils {
 			currency.setCurrencyName("pesos");
 			currency.setCurrencyDecimal(2);
 			currency.setExchangeRate(1 / 0.17);
-			currency.setUpdatedDate(new Date());
+			currency.setUpdatedDate(CommonUtils.getInstance().getTimeStamp());
 			list.add(currency);
 
 			currency = new CurrencyExchangeRate();
@@ -96,7 +96,7 @@ public class CurrencyExchangeRateUtils {
 			currency.setCurrencyName("British pound sterling");
 			currency.setCurrencyDecimal(2);
 			currency.setExchangeRate(1 / 11.69);
-			currency.setUpdatedDate(new Date());
+			currency.setUpdatedDate(CommonUtils.getInstance().getTimeStamp());
 			list.add(currency);
 
 			currency = new CurrencyExchangeRate();
@@ -106,7 +106,7 @@ public class CurrencyExchangeRateUtils {
 			currency.setCurrencyName("Indian rupee");
 			currency.setCurrencyDecimal(2);
 			currency.setExchangeRate(1 / 0.11);
-			currency.setUpdatedDate(new Date());
+			currency.setUpdatedDate(CommonUtils.getInstance().getTimeStamp());
 			list.add(currency);
 
 		} catch (Exception e) {
@@ -115,7 +115,8 @@ public class CurrencyExchangeRateUtils {
 		return list;
 	}
 
-	public String getAmmount(Double amount, CurrencyExchnageRateResponse currencyExchnageRateResponse) {
+	public String getAmmount(String amountTemp, CurrencyExchnageRateResponse currencyExchnageRateResponse) {
+		Double amount = Double.parseDouble(amountTemp);
 
 		amount = amount / currencyExchnageRateResponse.getExchangeRate();
 		return decimalDigits(currencyExchnageRateResponse.getCurrencyDecimal(), amount);
