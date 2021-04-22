@@ -9,6 +9,7 @@ import java.util.Properties;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,10 +109,23 @@ public class CommonUtils {
 		}
 		return numeric;
 	}
-	
+
 	public String getTimeStamp() {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        return format.format(timestamp);
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		return format.format(timestamp);
+	}
+
+	public boolean isNumber(String value) {
+		String DOUBLE_PATTERN = "[0-9]+(\\.){0,1}[0-9]*";
+		String INTEGER_PATTERN = "\\d+";
+
+		if (Pattern.matches(INTEGER_PATTERN, value)) {
+			return true;
+		} else if (Pattern.matches(DOUBLE_PATTERN, value)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

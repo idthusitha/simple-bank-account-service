@@ -18,6 +18,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.5'
+		
 	//Jackson Data Bind
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
 	

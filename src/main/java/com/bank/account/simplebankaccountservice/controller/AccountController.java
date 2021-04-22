@@ -18,7 +18,10 @@ import com.bank.account.simplebankaccountservice.model.AccountCreateRequest;
 import com.bank.account.simplebankaccountservice.model.AccountCreateResponse;
 import com.bank.account.simplebankaccountservice.model.AccountDepositRequest;
 import com.bank.account.simplebankaccountservice.model.AccountDepositResponse;
+import com.bank.account.simplebankaccountservice.model.AccountWithdrawalRequest;
+import com.bank.account.simplebankaccountservice.model.AccountWithdrawalResponse;
 import com.bank.account.simplebankaccountservice.service.AccountService;
+import com.bank.account.simplebankaccountservice.utilities.ValidatorLogic;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -38,7 +41,10 @@ public class AccountController {
 		try {
 			logger.info("Starting on method create in AccountController :");
 
-			/** Need to validate the AccountCreateRequest */
+			//Request Validation
+			if(ValidatorLogic.validationAccountCreateRequest(accountCreateRequest)) {
+				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			}
 
 			accountCreateResponse = accountService.create(accountCreateRequest);
 
@@ -56,6 +62,8 @@ public class AccountController {
 
 	}
 
+	
+
 	@ApiOperation(value = "Check Account Balance")
 	@RequestMapping(value = "/balance", method = RequestMethod.POST, produces = "application/json")
 	public ResponseEntity<?> balance(@RequestBody AccountBalanceRequest accountBalanceRequest, HttpServletResponse response) {
@@ -63,7 +71,10 @@ public class AccountController {
 		try {
 			logger.info("Starting on method balance in AccountController :");
 
-			/** Need to validate the AccountCreateRequest */
+			//Request Validation
+			if(ValidatorLogic.validationAccountBalanceRequest(accountBalanceRequest)) {
+				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			}
 
 			accountBalanceResponse = accountService.balance(accountBalanceRequest);
 
@@ -81,6 +92,8 @@ public class AccountController {
 
 	}
 
+	
+
 	@ApiOperation(value = "Deposit Account")
 	@RequestMapping(value = "/deposit", method = RequestMethod.PUT, produces = "application/json")
 	public ResponseEntity<?> deposit(@RequestBody AccountDepositRequest accountDepositRequest, HttpServletResponse response) {
@@ -88,7 +101,10 @@ public class AccountController {
 		try {
 			logger.info("Starting on method deposit in AccountController :");
 
-			/** Need to validate the AccountCreateRequest */
+			//Request Validation
+			if(ValidatorLogic.validationAccountDepositRequest(accountDepositRequest)) {
+				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			}
 
 			accountDepositResponse = accountService.deposit(accountDepositRequest);
 			accountDepositResponse.setStatus("SUCCESS");
@@ -104,6 +120,34 @@ public class AccountController {
 			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		} else {
 			return ResponseEntity.ok(accountDepositResponse);
+		}
+	}
+	
+	@ApiOperation(value = "Withdrawal Account")
+	@RequestMapping(value = "/withdrawal", method = RequestMethod.PUT, produces = "application/json")
+	public ResponseEntity<?> withdrawal(@RequestBody AccountWithdrawalRequest accountWithdrawalRequest, HttpServletResponse response) {
+		AccountWithdrawalResponse accountWithdrawalResponse = null;
+		try {
+			logger.info("Starting on method withdrawal in AccountController :");
+
+			//Request Validation
+			if(ValidatorLogic.validationAccountWithdrawalRequest(accountWithdrawalRequest)) {
+				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			}
+
+			accountWithdrawalResponse = accountService.withdrawal(accountWithdrawalRequest);			
+
+		} catch (Exception e) {
+			logger.error("Error on method withdrawal in AccountController :", e);
+			accountWithdrawalResponse.setStatus("FAILED");
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		logger.info("Ending on method withdrawal in AccountController :");
+		if (null == accountWithdrawalResponse) {
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+		} else {
+			return ResponseEntity.ok(accountWithdrawalResponse);
 		}
 	}
 }

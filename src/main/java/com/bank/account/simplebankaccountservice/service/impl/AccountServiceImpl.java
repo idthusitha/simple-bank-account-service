@@ -1,8 +1,6 @@
 package com.bank.account.simplebankaccountservice.service.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.bank.account.simplebankaccountservice.document.Account;
-import com.bank.account.simplebankaccountservice.document.CurrencyExchangeRate;
 import com.bank.account.simplebankaccountservice.document.TransactionHistory;
 import com.bank.account.simplebankaccountservice.model.AccountBalanceRequest;
 import com.bank.account.simplebankaccountservice.model.AccountBalanceResponse;
@@ -27,11 +24,12 @@ import com.bank.account.simplebankaccountservice.model.AccountCreateRequest;
 import com.bank.account.simplebankaccountservice.model.AccountCreateResponse;
 import com.bank.account.simplebankaccountservice.model.AccountDepositRequest;
 import com.bank.account.simplebankaccountservice.model.AccountDepositResponse;
+import com.bank.account.simplebankaccountservice.model.AccountWithdrawalRequest;
+import com.bank.account.simplebankaccountservice.model.AccountWithdrawalResponse;
 import com.bank.account.simplebankaccountservice.model.CurrencyExchnageRateRequest;
 import com.bank.account.simplebankaccountservice.model.CurrencyExchnageRateResponse;
 import com.bank.account.simplebankaccountservice.service.AccountService;
 import com.bank.account.simplebankaccountservice.utilities.CommonUtils;
-import com.bank.account.simplebankaccountservice.utilities.CurrencyExchangeRateUtils;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -40,9 +38,6 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountElasticServiceImpl accountElasticServiceImpl;
-
-	@Autowired
-	private RestTemplate restTemplate;
 
 	@Override
 	public AccountCreateResponse create(AccountCreateRequest accountCreateRequest) {
@@ -128,13 +123,50 @@ public class AccountServiceImpl implements AccountService {
 
 		historyList = historyList == null ? new ArrayList<TransactionHistory>() : historyList;
 		historyList.add(transactionHistory);
-
 		account.setTransactionHistory(historyList);
 
-		account.setAmount("" + (Double.parseDouble(account.getAmount()) + Double.parseDouble(accountDepositRequest.getAmount())));
+		Double balance = Double.parseDouble(account.getAmount()) - Double.parseDouble(accountDepositRequest.getAmount());
+		account.setAmount("" + balance);
+
 		accountElasticServiceImpl.update(account);
 		BeanUtils.copyProperties(account, accountDepositResponse);
 		return accountDepositResponse;
+	}
+
+	@Override
+	public AccountWithdrawalResponse withdrawal(AccountWithdrawalRequest accountWithdrawalRequest) {
+		AccountWithdrawalResponse accountWithdrawalResponse = new AccountWithdrawalResponse();
+		accountWithdrawalResponse.setStatus("INITIAL-STATE");
+
+		Account account = new Account();
+		account.setAccountNumber(accountWithdrawalRequest.getAccountNumber());
+		account = accountElasticServiceImpl.findByAccountId(account);
+
+		/** Update the transaction history list here */
+		List<TransactionHistory> historyList = account.getTransactionHistory();
+		TransactionHistory transactionHistory = new TransactionHistory();
+		transactionHistory.setDebitAmout("0.00");
+		transactionHistory.setCreditAmout(accountWithdrawalRequest.getAmount());
+		transactionHistory.setTransactionDate(CommonUtils.getInstance().getTimeStamp());
+
+		historyList = historyList == null ? new ArrayList<TransactionHistory>() : historyList;
+		historyList.add(transactionHistory);
+		account.setTransactionHistory(historyList);
+
+		Double balance = Double.parseDouble(account.getAmount()) - Double.parseDouble(accountWithdrawalRequest.getAmount());
+		BeanUtils.copyProperties(account, accountWithdrawalResponse);
+				
+		
+		if(balance > 0) {
+			account.setAmount("" + balance);
+			accountElasticServiceImpl.update(account);		
+			accountWithdrawalResponse.setAmount("" + balance);
+			accountWithdrawalResponse.setStatus("SUCCESS");
+		
+		}else {
+			accountWithdrawalResponse.setStatus("INSUFFICIENT MONEY");
+		}		
+		return accountWithdrawalResponse;
 	}
 
 }

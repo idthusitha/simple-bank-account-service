@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.bank.account.simplebankaccountservice.document.TransactionHistory;
 
-public class AccountBalanceResponse {
+public class AccountWithdrawalResponse {
 
 	private Integer accountNumber;
 	private String currency;
@@ -19,6 +19,7 @@ public class AccountBalanceResponse {
 	private Integer phoneNumber;
 	private String createdDate;
 	private List<TransactionHistory> transactionHistory;
+	private String status;
 
 	public Integer getAccountNumber() {
 		return accountNumber;
@@ -34,6 +35,14 @@ public class AccountBalanceResponse {
 
 	public void setCurrency(String currency) {
 		this.currency = currency;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
 	}
 
 	public String getFirstName() {
@@ -116,11 +125,12 @@ public class AccountBalanceResponse {
 		this.transactionHistory = transactionHistory;
 	}
 
-	public String getAmount() {
-		return amount;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setAmount(String amount) {
-		this.amount = amount;
+	public void setStatus(String status) {
+		this.status = status;
 	}
+
 }

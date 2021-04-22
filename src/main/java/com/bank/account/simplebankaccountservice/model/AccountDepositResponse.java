@@ -1,6 +1,5 @@
 package com.bank.account.simplebankaccountservice.model;
 
-import java.util.Date;
 import java.util.List;
 
 import com.bank.account.simplebankaccountservice.document.TransactionHistory;
