@@ -88,20 +88,20 @@ free to add other aspects to make it more production ready.
 
 ### Run Bank Account Application :
 
-##### Start the application with Boot Run
+	##### Start the application with Boot Run
 	cd /[project-home-directory]
 	./gradlew bootRun
 		
-#####S tart the application with Boot Run with debug enable
+	##### Start the application with Boot Run with debug enable
 	./gradlew clean build bootRun --debug-jvm
 	Listening for transport dt_socket at address: 5005
 	 	 
-##### Start the application with docker
-	 cd /[project-home-directory]
-	 ./gradlew clean buildDocker
+	##### Start the application with docker
+	cd /[project-home-directory]
+	./gradlew clean buildDocker
 	 
-	 cd /[project-home-directory]/docker/application
-	 sudo docker-compose up
+	cd /[project-home-directory]/docker/application
+	sudo docker-compose up
 
 ### Application Swagger API
 
