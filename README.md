@@ -77,7 +77,9 @@ free to add other aspects to make it more production ready.
 	 Listening for transport dt_socket at address: 5005
 
 ### Application Swagger API
+
+![Test Image 1](https://github.com/idthusitha/simple-bank-account-service/blob/master/doc/swagger_api.png)
 	
 	http://localhost:8080/swagger-ui.html#
-	
-![Test Image 1](https://github.com/idthusitha/simple-bank-account-service/blob/master/doc/swagger_api.png)
+
+
