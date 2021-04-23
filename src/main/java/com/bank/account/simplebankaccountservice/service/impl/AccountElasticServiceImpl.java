@@ -27,18 +27,15 @@ import com.bank.account.simplebankaccountservice.utilities.StringConstant;
 public class AccountElasticServiceImpl {
 
 	final static Logger logger = LoggerFactory.getLogger(AccountElasticServiceImpl.class);
-
+	final static Integer DEFAULT_ACCOUNT_NUMBER = 1000000000; /**9 digit account number*/
 	@Autowired
 	ElasticsearchOperations elasticsearchOperations;
 
 	public void save(Account account) {
-
-		//elasticsearchOperations.indexOps(Account.class).create();
 		elasticsearchOperations.save(account);
 	}
 
 	public Account findByAccountId(Account account) {
-		// query
 		QueryBuilder queryBuilder = QueryBuilders.matchQuery("accountNumber", account.getAccountNumber());
 		Query searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 
@@ -75,24 +72,21 @@ public class AccountElasticServiceImpl {
 
 	public Integer generateAccountNumber() {
 		AccountNumber accountNumber = new AccountNumber();
-		accountNumber.setAccountNumber(100000000);
+		accountNumber.setAccountNumber(DEFAULT_ACCOUNT_NUMBER);
 		Long count = 0L;
 		try {
 			QueryBuilder queryBuilder = QueryBuilders.matchQuery("accountNumber", accountNumber.getAccountNumber());
 			Query searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 
 			count = elasticsearchOperations.count(searchQuery, AccountNumber.class, IndexCoordinates.of(StringConstant.ACCOUNT_NUMBER_INDEX));
-			
-			accountNumber.setAccountNumber(100000000 + count.intValue() + 1);
-			//elasticsearchOperations.indexOps(AccountNumber.class).create();
+
+			accountNumber.setAccountNumber(DEFAULT_ACCOUNT_NUMBER + count.intValue() + 1);
 			elasticsearchOperations.save(accountNumber);
 
 		} catch (NoSuchIndexException e) {
-			//elasticsearchOperations.indexOps(AccountNumber.class).create();
 			elasticsearchOperations.save(accountNumber);
-			accountNumber.setAccountNumber(100000000 + count.intValue() + 1);
+			accountNumber.setAccountNumber(DEFAULT_ACCOUNT_NUMBER + count.intValue() + 1);
 		}
-
 		return accountNumber.getAccountNumber();
 	}
 

@@ -1,7 +1,10 @@
 package com.bank.account.simplebankaccountservice.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.bank.account.simplebankaccountservice.document.Account;
@@ -35,6 +40,7 @@ import com.bank.account.simplebankaccountservice.utilities.CommonUtils;
 public class AccountServiceImpl implements AccountService {
 
 	final static Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
+	static final HashMap<Integer, ReentrantLock> locks = new HashMap<Integer, ReentrantLock>();
 
 	@Autowired
 	private AccountElasticServiceImpl accountElasticServiceImpl;
@@ -57,22 +63,35 @@ public class AccountServiceImpl implements AccountService {
 		accountCreateResponse.setAccountNumber(account.getAccountNumber());
 		accountCreateResponse.setStatus("ACTIVE");
 
+		logger.info("AccountServiceImpl==> create()==>Completed");
+
 		return accountCreateResponse;
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public AccountBalanceResponse balance(AccountBalanceRequest accountBalanceRequest) {
 		AccountBalanceResponse accountBalanceResponse = new AccountBalanceResponse();
 
-		Account account = new Account();
-		account.setAccountNumber(accountBalanceRequest.getAccountNumber());
-		account = accountElasticServiceImpl.findByAccountId(account);
-		BeanUtils.copyProperties(account, accountBalanceResponse);
+		/** Lock the account with account number */
+		Lock lock = getLock(accountBalanceRequest.getAccountNumber());
 
-		CurrencyExchnageRateResponse currencyExchnageRateResponse = loadCurrencyExchangeRate(accountBalanceRequest, account.getAmount());
-		accountBalanceResponse.setCurrency(accountBalanceRequest.getCurrency());
-		accountBalanceResponse.setAmount(currencyExchnageRateResponse.getAmount());
+		try {
+			lock.lock();
 
+			Account account = new Account();
+			account.setAccountNumber(accountBalanceRequest.getAccountNumber());
+			account = accountElasticServiceImpl.findByAccountId(account);
+			BeanUtils.copyProperties(account, accountBalanceResponse);
+
+			CurrencyExchnageRateResponse currencyExchnageRateResponse = loadCurrencyExchangeRate(accountBalanceRequest, account.getAmount());
+			accountBalanceResponse.setCurrency(accountBalanceRequest.getCurrency());
+			accountBalanceResponse.setAmount(currencyExchnageRateResponse.getAmount());
+
+			logger.info("AccountServiceImpl==> accountBalanceResponse()==>Completed: " + accountBalanceResponse.getAmount());
+		} finally {
+			lock.unlock();
+		}
 		return accountBalanceResponse;
 	}
 
@@ -107,66 +126,98 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public AccountDepositResponse deposit(AccountDepositRequest accountDepositRequest) {
 		AccountDepositResponse accountDepositResponse = new AccountDepositResponse();
 
-		Account account = new Account();
-		account.setAccountNumber(accountDepositRequest.getAccountNumber());
-		account = accountElasticServiceImpl.findByAccountId(account);
+		/** Lock the account with account number */
+		Lock lock = getLock(accountDepositRequest.getAccountNumber());
 
-		/** Update the transaction history list here */
-		List<TransactionHistory> historyList = account.getTransactionHistory();
-		TransactionHistory transactionHistory = new TransactionHistory();
-		transactionHistory.setDebitAmout(accountDepositRequest.getAmount());
-		transactionHistory.setCreditAmout("0.00");
-		transactionHistory.setTransactionDate(CommonUtils.getInstance().getTimeStamp());
+		try {
+			lock.lock();
 
-		historyList = historyList == null ? new ArrayList<TransactionHistory>() : historyList;
-		historyList.add(transactionHistory);
-		account.setTransactionHistory(historyList);
+			Account account = new Account();
+			account.setAccountNumber(accountDepositRequest.getAccountNumber());
+			account = accountElasticServiceImpl.findByAccountId(account);
 
-		Double balance = Double.parseDouble(account.getAmount()) - Double.parseDouble(accountDepositRequest.getAmount());
-		account.setAmount("" + balance);
+			/** Update the transaction history list here */
+			List<TransactionHistory> historyList = account.getTransactionHistory();
+			TransactionHistory transactionHistory = new TransactionHistory();
+			transactionHistory.setDebitAmout(accountDepositRequest.getAmount());
+			transactionHistory.setCreditAmout("0.00");
+			transactionHistory.setTransactionDate(CommonUtils.getInstance().getTimeStamp());
 
-		accountElasticServiceImpl.update(account);
-		BeanUtils.copyProperties(account, accountDepositResponse);
+			historyList = historyList == null ? new ArrayList<TransactionHistory>() : historyList;
+			historyList.add(transactionHistory);
+			account.setTransactionHistory(historyList);
+
+			Double balance = Double.parseDouble(account.getAmount()) - Double.parseDouble(accountDepositRequest.getAmount());
+			account.setAmount("" + balance);
+
+			accountElasticServiceImpl.update(account);
+			BeanUtils.copyProperties(account, accountDepositResponse);
+			logger.info("AccountServiceImpl==> deposit()==>Completed: " + accountDepositResponse.getAmount());
+		} finally {
+			lock.unlock();
+		}
+
 		return accountDepositResponse;
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public AccountWithdrawalResponse withdrawal(AccountWithdrawalRequest accountWithdrawalRequest) {
 		AccountWithdrawalResponse accountWithdrawalResponse = new AccountWithdrawalResponse();
 		accountWithdrawalResponse.setStatus("INITIAL-STATE");
 
-		Account account = new Account();
-		account.setAccountNumber(accountWithdrawalRequest.getAccountNumber());
-		account = accountElasticServiceImpl.findByAccountId(account);
+		/** Lock the account with account number */
+		Lock lock = getLock(accountWithdrawalRequest.getAccountNumber());
 
-		/** Update the transaction history list here */
-		List<TransactionHistory> historyList = account.getTransactionHistory();
-		TransactionHistory transactionHistory = new TransactionHistory();
-		transactionHistory.setDebitAmout("0.00");
-		transactionHistory.setCreditAmout(accountWithdrawalRequest.getAmount());
-		transactionHistory.setTransactionDate(CommonUtils.getInstance().getTimeStamp());
+		try {
+			lock.lock();
 
-		historyList = historyList == null ? new ArrayList<TransactionHistory>() : historyList;
-		historyList.add(transactionHistory);
-		account.setTransactionHistory(historyList);
+			Account account = new Account();
+			account.setAccountNumber(accountWithdrawalRequest.getAccountNumber());
+			account = accountElasticServiceImpl.findByAccountId(account);
 
-		Double balance = Double.parseDouble(account.getAmount()) - Double.parseDouble(accountWithdrawalRequest.getAmount());
-		BeanUtils.copyProperties(account, accountWithdrawalResponse);
-				
-		
-		if(balance > 0) {
-			account.setAmount("" + balance);
-			accountElasticServiceImpl.update(account);		
-			accountWithdrawalResponse.setAmount("" + balance);
-			accountWithdrawalResponse.setStatus("SUCCESS");
-		
-		}else {
-			accountWithdrawalResponse.setStatus("INSUFFICIENT MONEY");
-		}		
+			/** Update the transaction history list here */
+			List<TransactionHistory> historyList = account.getTransactionHistory();
+			TransactionHistory transactionHistory = new TransactionHistory();
+			transactionHistory.setDebitAmout("0.00");
+			transactionHistory.setCreditAmout(accountWithdrawalRequest.getAmount());
+			transactionHistory.setTransactionDate(CommonUtils.getInstance().getTimeStamp());
+
+			historyList = historyList == null ? new ArrayList<TransactionHistory>() : historyList;
+			historyList.add(transactionHistory);
+			account.setTransactionHistory(historyList);
+
+			Double balance = Double.parseDouble(account.getAmount()) - Double.parseDouble(accountWithdrawalRequest.getAmount());
+			BeanUtils.copyProperties(account, accountWithdrawalResponse);
+
+			if (balance > 0) {
+				account.setAmount("" + balance);
+				accountElasticServiceImpl.update(account);
+				accountWithdrawalResponse.setAmount("" + balance);
+				accountWithdrawalResponse.setStatus("SUCCESS");
+
+			} else {
+				accountWithdrawalResponse.setStatus("INSUFFICIENT MONEY");
+			}
+			logger.info("AccountServiceImpl==> deposit()==>withdrawal: " + accountWithdrawalResponse.getAmount());
+		} finally {
+			lock.unlock();
+		}
 		return accountWithdrawalResponse;
 	}
 
+	private ReentrantLock getLock(Integer id) {
+		synchronized (locks) {
+			ReentrantLock lock = locks.get(id);
+			if (lock == null) {
+				lock = new ReentrantLock();
+				locks.put(id, lock);
+			}
+			return lock;
+		}
+	}
 }
