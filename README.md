@@ -79,3 +79,5 @@ free to add other aspects to make it more production ready.
 ### Application Swagger API
 	
 	http://localhost:8080/swagger-ui.html#
+	
+	![Test Image 1](https://github.com/idthusitha/simple-bank-account-service/blob/master/doc/swagger_api.png)
