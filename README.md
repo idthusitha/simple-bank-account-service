@@ -52,29 +52,38 @@ free to add other aspects to make it more production ready.
    * git
    * Java 11
    * Docker 20
+   * Docker-compose 20
+   * elasticsearch 7.11.2
    
-### Start Elasticsearch  
-	#pull elastic search docker image(only once)
-	docker pull docker.elastic.co/elasticsearch/elasticsearch:7.11.2
-	
-	#run elastic search on docker
-	docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.11.2
-	
+   
 ### Build Bank Account Application :
 
-	#Go to the project home directory which is simple-bank-account-service
-	cd /[project-home-directory]
+	cd {{ WORKSPACE_PATH }}
+	git clone https://github.com/idthusitha/simple-bank-account-service.git
+	cd  simple-bank-account-service
 	./gradlew clean build
-
+		
+	#Docker image build
+	./gradlew clean buildDocker
+	
 
 ### Run Bank Account Application :
 
 	#Go to the project home directory which is simple-bank-account-service
 	cd /[project-home-directory]
 	./gradlew bootRun
-	
+		
 	./gradlew clean build bootRun --debug-jvm
 	 Listening for transport dt_socket at address: 5005
+	 
+	 
+	 #Start Elastic Search
+	 cd /[project-home-directory]/docker/elasticsearch
+	 docker-compose up
+	 
+	 #Start the application
+	 cd /[project-home-directory]/docker/application
+	 docker-compose up
 
 ### Application Swagger API
 
