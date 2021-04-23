@@ -25,7 +25,7 @@ free to add other aspects to make it more production ready.
 
 ### Bank Account API 
 
-   * http://localhost:8080/account/create
+   * POST http://localhost:8080/account/create
    
     {
 	  "address": "Kronvagan 26A",
@@ -38,29 +38,27 @@ free to add other aspects to make it more production ready.
 	  "phoneNumber": 0727869462
 	}
 	
-   * http://localhost:8080/account/deposit
+   * PUT http://localhost:8080/account/deposit
    
     {
 	  "accountNumber": 100000001,
 	  "amount": "100.00"
 	}
 	
-   * http://localhost:8080/account/balance
+   * POST http://localhost:8080/account/balance
    
     {
 	  "accountNumber": 100000001,
 	  "currency": "SEK"
 	}
 
-   * http://localhost:8080/account/withdrawal
+   * PUT http://localhost:8080/account/withdrawal
    
     {
 	  "accountNumber": 100000001,
 	  "amount": "100.00"
 	}
 	    
-
-
 
 
 ### Prerequisites to run Bank Account System :
@@ -86,21 +84,24 @@ free to add other aspects to make it more production ready.
 
 	 #Start ElasticSearch
 	 cd /[project-home-directory]/docker/elasticsearch
-	 docker-compose up
+	 sudo docker-compose up
 
 ### Run Bank Account Application :
 
-	#Go to the project home directory which is simple-bank-account-service
+#####Start the application with Boot Run
 	cd /[project-home-directory]
 	./gradlew bootRun
 		
+#####Start the application with Boot Run with debug enable
 	./gradlew clean build bootRun --debug-jvm
-	 Listening for transport dt_socket at address: 5005
+	Listening for transport dt_socket at address: 5005
+	 	 
+#####Start the application with docker
+	 cd /[project-home-directory]
+	 ./gradlew clean buildDocker
 	 
-	 
-	 #Start the application
 	 cd /[project-home-directory]/docker/application
-	 docker-compose up
+	 sudo docker-compose up
 
 ### Application Swagger API
 
