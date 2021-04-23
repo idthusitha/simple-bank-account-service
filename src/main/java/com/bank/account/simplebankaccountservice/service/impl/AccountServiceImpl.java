@@ -169,7 +169,7 @@ public class AccountServiceImpl implements AccountService {
 			Double balance = Double.parseDouble(account.getAmount()) - Double.parseDouble(accountWithdrawalRequest.getAmount());
 			BeanUtils.copyProperties(account, accountWithdrawalResponse);
 
-			if (balance > 0) {
+			if (balance > 0.0) {
 				account.setAmount("" + balance);
 				accountElasticServiceImpl.update(account);
 				accountWithdrawalResponse.setAmount("" + balance);

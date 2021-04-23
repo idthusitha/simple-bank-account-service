@@ -23,28 +23,43 @@ free to add other aspects to make it more production ready.
    * Allow concurrent operations.
    * Use in memory data structures or in memory database.
 
-### Create Bank Account JSON format 
+### Bank Account API 
 
-   * test
-	
+   * http://localhost:8080/account/create
+   
     {
-       "firstName" : "test user"
-      
-    }
-    
-### Data Processing
+	  "address": "Kronvagan 26A",
+	  "country": "Sweden",
+	  "dateOfBirth": "1983-09-01",
+	  "emailAddress": "thusithaid@yahoo.com",
+	  "firstName": "Thusitha",
+	  "lastName": "Dissanayaka",
+	  "personalNumber": 198309010000,
+	  "phoneNumber": 0727869462
+	}
+	
+   * http://localhost:8080/account/deposit
+   
+    {
+	  "accountNumber": 100000001,
+	  "amount": "100.00"
+	}
+	
+   * http://localhost:8080/account/balance
+   
+    {
+	  "accountNumber": 100000001,
+	  "currency": "SEK"
+	}
 
-   * test
-  
-### Bank Account System Context
+   * http://localhost:8080/account/withdrawal
+   
+    {
+	  "accountNumber": 100000001,
+	  "amount": "100.00"
+	}
+	    
 
-
-
-### Bank Account System Containers
-
-
-
-### Bank Account System (API Application) Components
 
 
 
@@ -67,6 +82,12 @@ free to add other aspects to make it more production ready.
 	./gradlew clean buildDocker
 	
 
+### Run ElasticSearch :
+
+	 #Start ElasticSearch
+	 cd /[project-home-directory]/docker/elasticsearch
+	 docker-compose up
+
 ### Run Bank Account Application :
 
 	#Go to the project home directory which is simple-bank-account-service
@@ -77,18 +98,13 @@ free to add other aspects to make it more production ready.
 	 Listening for transport dt_socket at address: 5005
 	 
 	 
-	 #Start Elastic Search
-	 cd /[project-home-directory]/docker/elasticsearch
-	 docker-compose up
-	 
 	 #Start the application
 	 cd /[project-home-directory]/docker/application
 	 docker-compose up
 
 ### Application Swagger API
 
-![Test Image 1](https://github.com/idthusitha/simple-bank-account-service/blob/master/doc/swagger_api.png)
-	
 	http://localhost:8080/swagger-ui.html#
 
+![Test Image 1](doc/swagger_api.png)
 
