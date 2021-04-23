@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.bank.account'
-version = '0.0.1-SNAPSHOT'
+version = 'latest'
 sourceCompatibility = '11'
 
 repositories {
@@ -19,6 +19,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.5'
+	compile group: 'commons-codec', name: 'commons-codec', version: '1.15'
+	
+	
 		
 	//Jackson Data Bind
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1'

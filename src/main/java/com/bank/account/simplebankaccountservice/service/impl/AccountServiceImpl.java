@@ -10,16 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import com.bank.account.simplebankaccountservice.document.Account;
 import com.bank.account.simplebankaccountservice.document.TransactionHistory;
@@ -31,8 +24,8 @@ import com.bank.account.simplebankaccountservice.model.AccountDepositRequest;
 import com.bank.account.simplebankaccountservice.model.AccountDepositResponse;
 import com.bank.account.simplebankaccountservice.model.AccountWithdrawalRequest;
 import com.bank.account.simplebankaccountservice.model.AccountWithdrawalResponse;
-import com.bank.account.simplebankaccountservice.model.CurrencyExchnageRateRequest;
 import com.bank.account.simplebankaccountservice.model.CurrencyExchnageRateResponse;
+import com.bank.account.simplebankaccountservice.remoteservicelayer.CurrencyExchangeRateClient;
 import com.bank.account.simplebankaccountservice.service.AccountService;
 import com.bank.account.simplebankaccountservice.utilities.CommonUtils;
 
@@ -44,6 +37,9 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountElasticServiceImpl accountElasticServiceImpl;
+
+	@Autowired
+	private CurrencyExchangeRateClient currencyExchangeRateClient;
 
 	@Override
 	public AccountCreateResponse create(AccountCreateRequest accountCreateRequest) {
@@ -96,31 +92,10 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	private CurrencyExchnageRateResponse loadCurrencyExchangeRate(AccountBalanceRequest accountBalanceRequest, String amount) {
-		CurrencyExchnageRateResponse currencyExchnageRateResponse = new CurrencyExchnageRateResponse();
+		CurrencyExchnageRateResponse currencyExchnageRateResponse = null;
 
-		try {
-
-			RestTemplate restTemplate = new RestTemplate();
-			String exchangeRateAPI = CommonUtils.getInstance().getProperties().getProperty("exchange.rate.api.url") + "currency/find";
-			CurrencyExchnageRateRequest currencyExchnageRateRequest = new CurrencyExchnageRateRequest();
-			currencyExchnageRateRequest.setCurrency(accountBalanceRequest.getCurrency());
-			currencyExchnageRateRequest.setAmount(amount);
-
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
-
-			HttpEntity<CurrencyExchnageRateRequest> entity = new HttpEntity<CurrencyExchnageRateRequest>(currencyExchnageRateRequest, headers);
-
-			ResponseEntity<CurrencyExchnageRateResponse> response = restTemplate.exchange(exchangeRateAPI, HttpMethod.POST, entity, CurrencyExchnageRateResponse.class);
-
-			if (response.getStatusCode() == HttpStatus.OK) {
-				currencyExchnageRateResponse = response.getBody();
-			} else if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-				// nono... bad credentials
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		/** Load currency exchange rate from external service */
+		currencyExchnageRateResponse = currencyExchangeRateClient.getExchangeRate(accountBalanceRequest.getCurrency(), amount);
 
 		return currencyExchnageRateResponse;
 	}
