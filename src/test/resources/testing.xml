@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="mySuite" verbose="1">
+
+	<groups>
+		<run>
+			<include name="regression"/>
+		</run>
+	</groups>
+	
+	<test name="Tests">
+		<classes>
+			<class name="com.bank.account.simplebankaccountservice.controller.AccountControllerTest" />
+		</classes>
+	</test>
+</suite>

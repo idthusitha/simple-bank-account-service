@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [mySuite]" guice-stage="DEVELOPMENT" verbose="0">
+  <test thread-count="5" name="Tests(failed)" verbose="0">
+    <groups>
+      <run>
+        <include name="regression"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="com.bank.account.simplebankaccountservice.controller.AccountControllerTest">
+        <methods>
+          <include name="balance"/>
+          <include name="springTestContextBeforeTestClass"/>
+          <include name="afterTest"/>
+          <include name="springTestContextPrepareTestInstance"/>
+          <include name="setupMock"/>
+          <include name="springTestContextAfterTestClass"/>
+          <include name="springTestContextBeforeTestMethod"/>
+          <include name="springTestContextAfterTestMethod"/>
+          <include name="setup"/>
+        </methods>
+      </class> <!-- com.bank.account.simplebankaccountservice.controller.AccountControllerTest -->
+    </classes>
+  </test> <!-- Tests(failed) -->
+</suite> <!-- Failed suite [mySuite] -->

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2021-04-23T20:44:55Z" name="mySuite" finished-at="2021-04-23T20:44:59Z" duration-ms="4306">
+    <groups>
+      <group name="regression">
+        <method signature="AccountControllerTest.balance()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" name="balance" class="com.bank.account.simplebankaccountservice.controller.AccountControllerTest"/>
+        <method signature="AccountControllerTest.contextLoads()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" name="contextLoads" class="com.bank.account.simplebankaccountservice.controller.AccountControllerTest"/>
+        <method signature="AccountControllerTest.create()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" name="create" class="com.bank.account.simplebankaccountservice.controller.AccountControllerTest"/>
+        <method signature="AccountControllerTest.deposit()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" name="deposit" class="com.bank.account.simplebankaccountservice.controller.AccountControllerTest"/>
+        <method signature="AccountControllerTest.withdrawal()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" name="withdrawal" class="com.bank.account.simplebankaccountservice.controller.AccountControllerTest"/>
+      </group> <!-- regression -->
+    </groups>
+    <test started-at="2021-04-23T20:44:55Z" name="Tests" finished-at="2021-04-23T20:44:59Z" duration-ms="4306">
+      <class name="com.bank.account.simplebankaccountservice.controller.AccountControllerTest">
+        <test-method is-config="true" signature="setup()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:55Z" name="setup" finished-at="2021-04-23T20:44:55Z" duration-ms="177" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method is-config="true" signature="springTestContextBeforeTestClass()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:55Z" name="springTestContextBeforeTestClass" finished-at="2021-04-23T20:44:55Z" duration-ms="4" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestClass -->
+        <test-method is-config="true" signature="springTestContextPrepareTestInstance()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:55Z" name="springTestContextPrepareTestInstance" finished-at="2021-04-23T20:44:59Z" depends-on-methods="org.springframework.test.context.testng.AbstractTestNGSpringContextTests.springTestContextBeforeTestClass" duration-ms="3433" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextPrepareTestInstance -->
+        <test-method is-config="true" signature="setupMock()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="setupMock" finished-at="2021-04-23T20:44:59Z" duration-ms="2" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setupMock -->
+        <test-method is-config="true" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="springTestContextBeforeTestMethod" finished-at="2021-04-23T20:44:59Z" duration-ms="2" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.bank.account.simplebankaccountservice.controller.AccountControllerTest.balance() throws java.io.IOException,java.text.ParseException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method signature="balance()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="balance" finished-at="2021-04-23T20:44:59Z" duration-ms="311" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- balance -->
+        <test-method is-config="true" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="springTestContextAfterTestMethod" finished-at="2021-04-23T20:44:59Z" duration-ms="2" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.bank.account.simplebankaccountservice.controller.AccountControllerTest.balance() throws java.io.IOException,java.text.ParseException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method is-config="true" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="springTestContextBeforeTestMethod" finished-at="2021-04-23T20:44:59Z" duration-ms="1" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.bank.account.simplebankaccountservice.controller.AccountControllerTest.contextLoads()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method signature="contextLoads()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="contextLoads" finished-at="2021-04-23T20:44:59Z" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- contextLoads -->
+        <test-method is-config="true" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="springTestContextBeforeTestMethod" finished-at="2021-04-23T20:44:59Z" duration-ms="1" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.bank.account.simplebankaccountservice.controller.AccountControllerTest.create() throws java.io.IOException,java.text.ParseException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method is-config="true" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="springTestContextAfterTestMethod" finished-at="2021-04-23T20:44:59Z" duration-ms="0" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.bank.account.simplebankaccountservice.controller.AccountControllerTest.contextLoads()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method signature="create()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="create" finished-at="2021-04-23T20:44:59Z" duration-ms="124" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- create -->
+        <test-method is-config="true" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="springTestContextAfterTestMethod" finished-at="2021-04-23T20:44:59Z" duration-ms="0" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.bank.account.simplebankaccountservice.controller.AccountControllerTest.create() throws java.io.IOException,java.text.ParseException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method is-config="true" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="springTestContextBeforeTestMethod" finished-at="2021-04-23T20:44:59Z" duration-ms="1" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.bank.account.simplebankaccountservice.controller.AccountControllerTest.deposit() throws java.io.IOException,java.text.ParseException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method signature="deposit()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="deposit" finished-at="2021-04-23T20:44:59Z" duration-ms="109" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- deposit -->
+        <test-method is-config="true" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="springTestContextAfterTestMethod" finished-at="2021-04-23T20:44:59Z" duration-ms="1" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.bank.account.simplebankaccountservice.controller.AccountControllerTest.deposit() throws java.io.IOException,java.text.ParseException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method is-config="true" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="springTestContextBeforeTestMethod" finished-at="2021-04-23T20:44:59Z" duration-ms="1" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.bank.account.simplebankaccountservice.controller.AccountControllerTest.withdrawal() throws java.io.IOException,java.text.ParseException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method signature="withdrawal()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="withdrawal" finished-at="2021-04-23T20:44:59Z" duration-ms="121" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- withdrawal -->
+        <test-method is-config="true" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="springTestContextAfterTestMethod" finished-at="2021-04-23T20:44:59Z" duration-ms="1" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void com.bank.account.simplebankaccountservice.controller.AccountControllerTest.withdrawal() throws java.io.IOException,java.text.ParseException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method is-config="true" signature="springTestContextAfterTestClass()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="springTestContextAfterTestClass" finished-at="2021-04-23T20:44:59Z" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestClass -->
+        <test-method is-config="true" signature="afterTest()[pri:0, instance:com.bank.account.simplebankaccountservice.controller.AccountControllerTest@1694f169]" started-at="2021-04-23T20:44:59Z" name="afterTest" finished-at="2021-04-23T20:44:59Z" duration-ms="3" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterTest -->
+      </class> <!-- com.bank.account.simplebankaccountservice.controller.AccountControllerTest -->
+    </test> <!-- Tests -->
+  </suite> <!-- mySuite -->
+</testng-results>

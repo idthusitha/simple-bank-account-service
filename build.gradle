@@ -16,8 +16,15 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
+	
+	//test NG
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version: '1.5.10.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-test'
+	compile group: 'org.testng', name: 'testng', version: '6.14.3'
+	
+	//Security
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.5'
 	compile group: 'commons-codec', name: 'commons-codec', version: '1.15'
 	
@@ -38,8 +45,22 @@ dependencies {
 	}
 }
 
-test {
-	useJUnitPlatform()
+test {	
+	useTestNG(){
+		//includeGroups 'smoke', 'sanity'
+		//excludeGroups 'regression'
+		
+		// runlist to executed. path is relative to current folder
+		suites 'src/test/resources/testing.xml'
+		
+		useDefaultListeners = true
+		
+		reports.html.setDestination(file("test-output"))		
+		
+	}	
+	testLogging {
+		events "PASSED", "FAILED", "SKIPPED"
+	}
 }
 
 import com.bmuschko.gradle.docker.tasks.image.*
