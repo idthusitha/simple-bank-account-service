@@ -2,17 +2,13 @@
 
 ### OBJECTIVE
 
-   * Build a simple self-contained bank account REST service. While being a simple fictive assignment feel
-free to add other aspects to make it more production ready.
-
+   * This project is developed for a simple self-contained bank account using REST service. 
+   
 ### FUNCTIONAL REQUIREMENTS
 
-   * Support create account   	   	
-   * Support deposit and withdrawal to account.
-   * Support show account balance in currency of choice. Currency of the account (used in deposit
-		and withdrawal) is SEK.
-   * Currency exchange rates should be static but changing to fetch it from an external REST
-	service should be fairly easy.
+   * Create account   	   	
+   * Deposit and withdrawal to account.
+   * Show account balance in currency of choice. (Currency of the account used in deposit and withdrawal is SEK.) 
    * Negative account balance is not allowed.
 
 ### TECHNICAL REQUIREMENTS
