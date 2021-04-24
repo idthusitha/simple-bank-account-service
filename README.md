@@ -2,7 +2,7 @@
 
 ### OBJECTIVE
 
-   * This project is developed for a simple self-contained bank account using REST service. 
+   * This project is developed for a simple self-contained bank account using Spring Boot REST service. 
    
 ### FUNCTIONAL REQUIREMENTS
 
